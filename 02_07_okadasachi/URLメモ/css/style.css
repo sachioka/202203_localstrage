@@ -1,0 +1,83 @@
+body{
+  margin: 0;
+  padding: 3rem;
+  text-align: left;
+}
+header{
+  text-align: center;
+  background-color:#0ceb2a7a;
+  border-bottom: 1px solid #09852e;
+}
+.url{
+  height: 50px;
+  width: 400px;
+  padding: 2px;
+ margin-left: auto;
+}
+textarea{
+  width: 200px;
+}
+main{
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.row{
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.save{
+  width: 30px;
+  height: auto;
+  text-align: center;
+  background-color:#197467;
+  color: beige;
+  font-size: 10px;
+}
+.save:hover{
+  background-color:#30d6bd;
+}
+ul{
+  list-style: none;
+  width: 18rem;
+  display: block;
+  justify-content: space-around;
+  display: table;
+  table-layout: fixed;
+}
+li:hover{
+  background-color: rgb(5, 95, 53);
+}
+
+li{
+  border: solid 2px #1b7a0e;
+  text-align: center;
+  padding: 3%;
+  border-radius: 20px;
+  display:table-cell;  /* 定義 */
+}
+#title1{
+  display: none;
+}
+#row2,#row3,#row4,#row5{
+  display: none;
+}
+
+table{
+  display: block;
+  border-spacing: 10px 10px;
+  
+}
+td{
+  width: 70px;
+  text-align: center;
+}
+#output{
+  margin-top: 20px;
+  width: 100%;
+  height: 300px;
+}

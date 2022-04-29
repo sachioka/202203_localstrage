@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>URLレコーダー</title>
+</head>
+
+<body>
+  <header>
+    <h1 id="title1">URLレコーダー</h1>
+    <h1 id="title2">test</h1>
+  </header>
+  <main>
+    <div class="row" id="row1">
+      <input type="url" id="url1" class="url">
+      <textarea id="texttag1" class="texttag"></textarea>
+      <div id="save1" class="save">保存<br>1</div>
+    </div>
+    <div class="row" id="row2">
+      <input type="url" id="url2" class="url">
+      <textarea id="texttag2" class="texttag"></textarea>
+      <div id="save2" class="save">保存<br>2</div>
+    </div>
+    <div class="row" id="row3">
+      <input type="url" id="url3" class="url">
+      <textarea id="texttag3" class="texttag"></textarea>
+      <div id="save3" class="save">保存<br>3</div>
+    </div>
+    <div class="row" id="row4">
+      <input type="url" id="url4" class="url">
+      <textarea id="texttag4" class="texttag"></textarea>
+      <div id="save4" class="save">保存<br>4</div>
+    </div>
+    <div class="row" id="row5">
+      <input type="url" id="url5" class="url">
+      <textarea id="texttag5" class="texttag"></textarea>
+      <div id="save5" class="save">保存<br>5</div>
+    </div>
+
+
+
+    <ul>
+      <li id="alclear">ストレージ消去</li>
+      <li id="put">メモ出力</li>
+    </ul>
+    <table border="1" id="table">
+      <tr>
+        <td>保存1</td>
+        <td>保存2</td>
+        <td>保存3</td>
+        <td>保存4</td>
+        <td>保存5</td>
+      </tr>
+      <tr>
+        <td id="saved1"></td>
+        <td id="saved2"></td>
+        <td id="saved3"></td>
+        <td id="saved4"></td>
+        <td id="saved5"></td>
+      </tr>
+    </table>
+    <div id="output"></div>
+  </main>
+
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  $(function () {
+
+
+    //3.ページ読み込み：保存データ取得表示
+    if (localStorage.getItem('memo1')) {
+      const jsonData = localStorage.getItem('memo1');
+      const data = JSON.parse(jsonData);
+      $('#url1').val(data.title);
+      $('#texttag1').val(data.text);
+      $('#row1').css('display', 'flex');
+      $('#saved1').html('保存済')
+      if (localStorage.getItem('memo2')) {
+        const jsonData = localStorage.getItem('memo2');
+        const data = JSON.parse(jsonData);
+        $('#url2').val(data.title);
+        $('#texttag2').val(data.text);
+        $('#row2').css('display', 'flex');
+        $('#saved2').html('保存済')
+        if (localStorage.getItem('memo3')) {
+          const jsonData = localStorage.getItem('memo3');
+          const data = JSON.parse(jsonData);
+          $('#url3').val(data.title);
+          $('#texttag3').val(data.text);
+          $('#row3').css('display', 'flex');
+          $('#saved3').html('保存済')
+          if (localStorage.getItem('memo4')) {
+            const jsonData = localStorage.getItem('memo4');
+            const data = JSON.parse(jsonData);
+            $('#url4').val(data.title);
+            $('#texttag4').val(data.text);
+            $('#row4').css('display', 'flex');
+            $('#saved4').html('保存済')
+            if (localStorage.getItem('memo5')) {
+              const jsonData = localStorage.getItem('memo5');
+              const data = JSON.parse(jsonData);
+              $('#url5').val(data.title);
+              $('#texttag5').val(data.text);
+              $('#row5').css('display', 'flex');
+              $('#saved5').html('保存済')
+            }
+          }
+        }
+
+      }
+    }
+
+    //1.Save クリックイベント
+
+    $('#save1').on('click', function (i) {
+      const data = {
+        title: $('#url1').val(),
+        text: $('#texttag1').val(),
+      }
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem('memo1', jsonData);
+      $('#row1').css('display', 'none');
+      $('#row2').css('display', "flex");
+      $('#saved1').html('保存済')
+
+    });
+
+    $('#save2').on('click', function (i) {
+      const data = {
+        title: $('#url2').val(),
+        text: $('#texttag2').val(),
+      }
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem('memo2', jsonData);
+      $('#row2').css('display', 'none');
+      $('#row3').css('display', "flex");
+      $('#saved2').html('保存済')
+    });
+
+    $('#save3').on('click', function (i) {
+      const data = {
+        title: $('#url3').val(),
+        text: $('#texttag3').val(),
+      }
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem('memo3', jsonData);
+      $('#row3').css('display', 'none');
+      $('#row4').css('display', "flex");
+      $('#saved3').html('保存済')
+    });
+
+    $('#save4').on('click', function (i) {
+      const data = {
+        title: $('#url4').val(),
+        text: $('#texttag4').val(),
+      }
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem('memo4', jsonData);
+      $('#row4').css('display', 'none');
+      $('#row5').css('display', "flex");
+      $('#saved4').html('保存済')
+    });
+
+    $('#save5').on('click', function (i) {
+      const data = {
+        title: $('#url5').val(),
+        text: $('#texttag5').val(),
+      }
+      const jsonData = JSON.stringify(data);
+      localStorage.setItem('memo5', jsonData);
+      $('#row1').css('display', 'none');
+      $('#row2').css('display', "flex");
+      $('#row3').css('display', 'none');
+      $('#row4').css('display', "flex");
+      $('#saved5').html('保存済')
+    });
+
+
+
+    //2-1.put クリックイベント
+
+
+
+
+    $('#put').on('click', function () {
+      let pushtext = [];
+      if (localStorage.getItem('memo1')) {
+        const jsonData = localStorage.getItem('memo1');
+        const data = JSON.parse(jsonData);
+        pushtext[0]= (data.text);
+        pushtext[1] = (data.title);
+        $('#output').html('<p>'+pushtext[0]+'<br>'+pushtext[1]+'</p>');
+
+
+        if (localStorage.getItem('memo2')) {
+          const jsonData = localStorage.getItem('memo2');
+          const data = JSON.parse(jsonData);
+          pushtext[2] = (data.text);
+          pushtext[3] = (data.title);
+          $('#output').html('<p>' + pushtext[0] + '<br>' + pushtext[1] + '</p><p>'+ pushtext[2] + '<br>' + pushtext[3] + '</p>');
+
+          if (localStorage.getItem('memo3')) {
+            const jsonData = localStorage.getItem('memo3');
+            const data = JSON.parse(jsonData);
+            pushtext[4] = (data.text);
+            pushtext[5] = (data.title);
+            $('#output').html('<p>' + pushtext[0] + '<br>' + pushtext[1] + '</p><p>' + pushtext[2] + '<br>' + pushtext[3] + '</p><p>' + pushtext[4] + '<br>' + pushtext[5] + '</p>');
+            if (localStorage.getItem('memo4')) {
+              const jsonData = localStorage.getItem('memo4');
+              const data = JSON.parse(jsonData);
+              pushtext[6] = (data.text);
+              pushtext[7] = (data.title);
+              $('#output').html('<p>' + pushtext[0] + '<br>' + pushtext[1] + '</p><p>' + pushtext[2] + '<br>' + pushtext[3] + '</p><p>' + pushtext[4] + '<br>' + pushtext[5] + '</p><p>' + pushtext[6] + '<br>' + pushtext[7]+ '</p>');
+              if (localStorage.getItem('memo5')) {
+                const jsonData = localStorage.getItem('memo5');
+                const data = JSON.parse(jsonData);
+                pushtext[8] = (data.text);
+                pushtext[9] = (data.title);
+                $('#output').html('<p>' + pushtext[0] + '<br>' + pushtext[1] + '</p><p>' + pushtext[2] + '<br>' + pushtext[3] + '</p><p>' + pushtext[4] + '<br>' + pushtext[5] + '</p><p>' + pushtext[6] + '<br>' + pushtext[7] + '</p><p>' + pushtext[8] + '<br>' + pushtext[9] + '</p>');
+
+              }
+            }
+          }
+
+        }
+      }
+    });
+
+
+    //2-2.clear クリックイベント
+    $('#alclear').on('click', function () {
+      localStorage.clear();
+      $('#url1').val('');
+      $('#url2').val('');
+      $('#url3').val('');
+      $('#url4').val('');
+      $('#url4').val('');
+
+      $('#texttag1').val('');
+      $('#texttag2').val('');
+      $('#texttag3').val('');
+      $('#texttag4').val('');
+      $('#texttag5').val('');
+
+      $('#saved1').text('');
+      $('#saved2').text('');
+      $('#saved3').text('');
+      $('#saved4').text('');
+      $('#saved5').text('');
+      $('#output').text('');
+
+      $('#row1').css('display', 'flex');
+      $('#row2').css('display', 'none');
+      $('#row3').css('display', 'none');
+      $('#row4').css('display', 'none');
+      $('#row5').css('display', 'none');
+    });
+
+  });
+
+
+
+
+
+
+</script>
+
+</html>
