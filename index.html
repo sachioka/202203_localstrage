@@ -96,171 +96,208 @@
         // グラフを描画する為のコールバック関数を指定
         google.setOnLoadCallback(drawChart);
 
+
+
+        //回答の配列    
+
+
+    });
+
+    function drawChart() {
+
+        if (localStorage.getItem('candle')) {
+            const jsonData = localStorage.getItem('candle');
+            const dataself = JSON.parse(jsonData);
+            console.log(dataself)
+
+            let dataself_num = [];
+            for (let i = 0; i < 3; i++) {
+                let day = []; //この先繰り返す
+                day.push(dataself[i][0]); //この先繰り返す
+                for (let j = 1; j < 5; j++) {
+                    var num = parseFloat(dataself[i][j]);
+                    day.push(num);
+                }
+                dataself_num.push(day)
+            }
+            console.log(dataself_num)
+            let data = new google.visualization.arrayToDataTable([
+                dataself_num[0],
+                dataself_num[1],
+                dataself_num[2]
+            ], true);
+            // オプションの設定
+            let options = {
+                legend: 'none',
+                vAxis: {
+                    minValue: 460,
+                    maxValue: 690,
+                    gridlines: {
+                        count: 20,
+                        color: '#0c5020'
+                    },
+                    title: '株価'
+                },
+                colors: ['darkslategray', '#004411'],
+                animation: {
+                    startup: true,
+                    duration: 3000
+                },
+                backgroundColor: '#72a782'
+            };
+
+            // 指定されたIDの要素にローソク足を作成
+            let chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+            // グラフの描画
+            chart.draw(data, options);
+
+
+        } else { //-----データがない場合
+
+            //-----------------------------------------------------------
+            // データの順 安値,終値,始値,高値
+            // ※Excelだと始値,高値,安値,終値の順番
+
+
+            var data = new google.visualization.arrayToDataTable([
+                basedata[0],
+                basedata[1],
+                basedata[2]
+            ], true);
+            console.log(data);
+            // オプションの設定
+            var options = {
+                legend: 'none',
+                vAxis: {
+                    minValue: 460,
+                    maxValue: 690,
+                    gridlines: {
+                        count: 21,
+                        color: '#0c5020'
+                    },
+                    title: '株価'
+                },
+                colors: ['darkslategray', '#004411'],
+                animation: {
+                    startup: true,
+                    duration: 1000
+                },
+                backgroundColor: '#72a782'
+            };
+
+            // 指定されたIDの要素にローソク足を作成
+            let chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+
+            // グラフの描画
+            chart.draw(data, options);
+        }
+        // $('#save_status').html('');
+    }
+    let basedata = [
+        ["1日目", 520, 520, 600, 680],
+        ["2日目", 520, 650, 580, 650],
+        ["3日目", 490, 550, 520, 600]
+    ];
+    let basedata_ = JSON.stringify(basedata);
+    console.log(basedata_);
+    localStorage.setItem('basedata', basedata_);
+
+    let ans_array = [];
+    let csschang = ['#d1c3', '#d1c4', '#d1c1', '#d1c2', "2日目", '#d2c3', '#d2c4', '#d2c1', '#d2c2', "3日目", '#d3c3', '#d3c4', '#d3c1', '#d3c2']
+
+
+    $('#check').on('click', function() {
+        const candledata = [
+            ["1日目", $('#d1c3').val(), $('#d1c4').val(), $('#d1c1').val(), $('#d1c2').val()],
+            ["2日目", $('#d2c3').val(), $('#d2c4').val(), $('#d2c1').val(), $('#d2c2').val()],
+            ["3日目", $('#d3c3').val(), $('#d3c4').val(), $('#d3c1').val(), $('#d3c2').val()]
+        ];
+        console.log(candledata);
+        const jsonData = JSON.stringify(candledata);
+        localStorage.setItem('candle', jsonData);
+        drawChart();
+    });
+
+    $('#judge').on('click', function() {
+
+        const alrt = localStorage.getItem('candle');
+        const judge = JSON.parse(alrt);
+        console.log(judge);
+        let judge_ = [];
+        console.log(basedata);
+        let basedata_ = JSON.stringify(basedata);
+        console.log(basedata_);
+        for (let i = 0; i < 3; i++) {
+            let day = []; //この先繰り返す
+            day.push(judge[i][0]); //この先繰り返す
+            for (let j = 1; j < 5; j++) {
+                var num = parseFloat(judge[i][j]);
+                day.push(num);
+            }
+            judge_.push(day)
+        }
+        console.log(judge_);
+
+        if (judge_ == basedata) {
+            ans_array.push(1);
+            let ans_reduce = ans_array.reduce(function(sum, element) {
+                return sum + element;
+            }, 0);
+            let ans_count = ans_array.length;
+            const jsonData_ans = JSON.stringify(ans_array);
+            localStorage.setItem('ans_', jsonData_ans);
+            alert("正解！！  (" + ans_reduce + "/" + ans_count + ")");
+
+        } else {
+            ans_array.push(0);
+            let ans_reduce = ans_array.reduce(function(sum, element) {
+                return sum + element;
+            }, 0);
+            let ans_count = ans_array.length;
+            const jsonData_ans = JSON.stringify(ans_array);
+            localStorage.setItem('ans_', jsonData_ans);
+            alert("不正解!もう一度見直そう  (" + ans_reduce + "/" + ans_count + ")");
+
+        }
+
+
+    });
+
+    $('#next').on('click', function() {
+
+    });
+
+    $('#all_clear').on('click', function() {
+        localStorage.clear();
+        location.reload();
+    });
+
+
+    //検証用に正解の数字を入力できるボタン
+    $('#cheat').on('click', function() {
         let basedata = [
             ["1日目", 520, 520, 600, 680],
             ["2日目", 520, 650, 580, 650],
             ["3日目", 490, 550, 520, 600]
         ];
-
-        //回答の配列    
-        let ans_array = [];
-
-
-        function drawChart() {
-
-            if (localStorage.getItem('candle')) {
-                const jsonData = localStorage.getItem('candle');
-                const dataself = JSON.parse(jsonData);
-                console.log(dataself)
-
-                let dataself_num = [];
-                for (let i = 0; i < 3; i++) {
-                    let day = []; //この先繰り返す
-                    day.push(dataself[i][0]); //この先繰り返す
-                    for (let j = 1; j < 5; j++) {
-                        var num = parseFloat(dataself[i][j]);
-                        day.push(num);
-                    }
-                    dataself_num.push(day)
-                }
-                console.log(dataself_num)
-                let data = new google.visualization.arrayToDataTable([
-                    dataself_num[0],
-                    dataself_num[1],
-                    dataself_num[2]
-                ], true);
-                // オプションの設定
-                let options = {
-                    legend: 'none',
-                    vAxis: {
-                        minValue: 460,
-                        maxValue: 690,
-                        gridlines: {
-                            count: 20,
-                            color: '#0c5020'
-                        },
-                        title: '株価'
-                    },
-                    colors: ['darkslategray', '#004411'],
-                    animation: {
-                        startup: true,
-                        duration: 3000
-                    },
-                    backgroundColor: '#72a782'
-                };
-
-                // 指定されたIDの要素にローソク足を作成
-                let chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-                // グラフの描画
-                chart.draw(data, options);
-
-
-            } else { //-----データがない場合
-
-                //-----------------------------------------------------------
-                // データの順 安値,終値,始値,高値
-                // ※Excelだと始値,高値,安値,終値の順番
-
-
-                var data = new google.visualization.arrayToDataTable([
-                    basedata[0],
-                    basedata[1],
-                    basedata[2]
-                ], true);
-                console.log(data);
-                // オプションの設定
-                var options = {
-                    legend: 'none',
-                    vAxis: {
-                        minValue: 460,
-                        maxValue: 690,
-                        gridlines: {
-                            count: 21,
-                            color: '#0c5020'
-                        },
-                        title: '株価'
-                    },
-                    colors: ['darkslategray', '#004411'],
-                    animation: {
-                        startup: true,
-                        duration: 1000
-                    },
-                    backgroundColor: '#72a782'
-                };
-
-                // 指定されたIDの要素にローソク足を作成
-                let chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-
-                // グラフの描画
-                chart.draw(data, options);
-            }
-            $('#save_status').html('');
-        }
-
-
-        let csschang = ['#d1c3', '#d1c4', '#d1c1', '#d1c2', "2日目", '#d2c3', '#d2c4', '#d2c1', '#d2c2', "3日目", '#d3c3', '#d3c4', '#d3c1', '#d3c2']
-
-
-        $('#check').on('click', function() {
-            const candledata = [
-                ["1日目", $('#d1c3').val(), $('#d1c4').val(), $('#d1c1').val(), $('#d1c2').val()],
-                ["2日目", $('#d2c3').val(), $('#d2c4').val(), $('#d2c1').val(), $('#d2c2').val()],
-                ["3日目", $('#d3c3').val(), $('#d3c4').val(), $('#d3c1').val(), $('#d3c2').val()]
-            ];
-            console.log(candledata);
-            const jsonData = JSON.stringify(candledata);
-            localStorage.setItem('candle', jsonData);
-            location.reload();
-        });
-
-        $('#judge').on('click', function() {
-
-            const alrt = localStorage.getItem('ans_');
-            const judge = JSON.parse(alrt);
-            if (judge == 0) {
-                alert("正解！！");
-                ans_array.push(1);
-            } else {
-                alert("不正解!もう一度見直そう");
-                ans_array.push(0);
-            }
-        });
-
-        $('#retry').on('click', function() {
-
-        });
-
-        $('#all_clear').on('click', function() {
-            localStorage.clear();
-            location.reload();
-        });
-
-
-        //検証用に正解の数字を入力できるボタン
-        $('#cheat').on('click', function() {
-            let basedata = [
-                ["1日目", 520, 520, 600, 680],
-                ["2日目", 520, 650, 580, 650],
-                ["3日目", 490, 550, 520, 600]
-            ];
-            $('#d1c1').val(basedata[0][3]);
-            $('#d1c2').val(basedata[0][4]);
-            $('#d1c3').val(basedata[0][1]);
-            $('#d1c4').val(basedata[0][2]);
-            $('#d2c1').val(basedata[1][3]);
-            $('#d2c2').val(basedata[1][4]);
-            $('#d2c3').val(basedata[1][1]);
-            $('#d2c4').val(basedata[1][2]);
-            $('#d3c1').val(basedata[2][3]);
-            $('#d3c2').val(basedata[2][4]);
-            $('#d3c3').val(basedata[2][1]);
-            $('#d3c4').val(basedata[2][2]);
-
-        });
-
+        $('#d1c1').val(basedata[0][3]);
+        $('#d1c2').val(basedata[0][4]);
+        $('#d1c3').val(basedata[0][1]);
+        $('#d1c4').val(basedata[0][2]);
+        $('#d2c1').val(basedata[1][3]);
+        $('#d2c2').val(basedata[1][4]);
+        $('#d2c3').val(basedata[1][1]);
+        $('#d2c4').val(basedata[1][2]);
+        $('#d3c1').val(basedata[2][3]);
+        $('#d3c2').val(basedata[2][4]);
+        $('#d3c3').val(basedata[2][1]);
+        $('#d3c4').val(basedata[2][2]);
 
     });
+
+
+
     //---------
 </script>
 
