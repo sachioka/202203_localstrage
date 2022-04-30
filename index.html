@@ -275,11 +275,24 @@
             const alrt = localStorage.getItem('ans_');
             const judge = JSON.parse(alrt);
             if (judge == 0) {
-                alert("正解！！");
                 ans_array.push(1);
+                let ans_reduce = ans_array.reduce(function(sum, element) {
+                    return sum + element;
+                }, 0);
+                let ans_count = ans_array.length;
+                const jsonData_ans = JSON.stringify(ans_array);
+                localStorage.setItem('ans_', jsonData_ans);
+                alert("正解！！  (" + ans_reduce + "/" + ans_count + ")");
             } else {
-                alert("不正解!もう一度見直そう");
                 ans_array.push(0);
+                let ans_reduce = ans_array.reduce(function(sum, element) {
+                    return sum + element;
+                }, 0);
+                let ans_count = ans_array.length;
+                const jsonData_ans = JSON.stringify(ans_array);
+                localStorage.setItem('ans_', jsonData_ans);
+                alert("不正解!もう一度見直そう  (" + ans_reduce + "/" + ans_count + ")");
+
             }
         });
 
