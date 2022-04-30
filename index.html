@@ -111,6 +111,8 @@
             if (localStorage.getItem('candle')) {
                 const jsonData = localStorage.getItem('candle');
                 const dataself = JSON.parse(jsonData);
+                console.log(dataself)
+
                 let dataself_num = [];
                 for (let i = 0; i < 3; i++) {
                     let day = []; //この先繰り返す
@@ -121,6 +123,7 @@
                     }
                     dataself_num.push(day)
                 }
+                console.log(dataself_num)
                 let data = new google.visualization.arrayToDataTable([
                     dataself_num[0],
                     dataself_num[1],
@@ -152,67 +155,8 @@
                 // グラフの描画
                 chart.draw(data, options);
 
-                let ansdata = [];
-                var ans_ = 0;
-                for (let i = 0; i < 3; i++) {
-                    for (let j = 1; j < 5; j++) {
-                        if (dataself_num[i][j] == basedata[i][j]) {
-                            var ans = 0;
-                            ansdata.push(ans);
-                        } else {
-                            var ans = 1;
-                            ansdata.push(ans);
-                            var ans_ = ans_ + 1
-                        }
-                    }
-                }
-                const jsonData_ans = JSON.stringify(ansdata);
-                localStorage.setItem('ans', jsonData_ans);
-                const jsonData_ans_ = JSON.stringify(ans_);
-                localStorage.setItem('ans_', jsonData_ans_);
-                $('#save_status').val('データあり');
 
-            } else { //-----データがない場合はランダムのデータ
-                //-----------------------------------------------------------
-                // var chtary1 = ['1日目', 420, 490, 500, 600];
-                // var chtary2_ = ['2日目', 0, 0, 0, 0];
-                // var chtary3_ = ['3日目', 0, 0, 0, 0];
-                // var ary = []
-                // // データの順 安値,終値,始値,高値
-
-                // // 4本値を変化させる４つの値を作成
-                // let max = 7;
-                // let min = 1;
-                // let min2 = -7;
-
-                // let endval = chtary1[1];
-                // console.log(endval);
-                // let val2 = endval + Math.floor(Math.random() * (max - min2 + 1) + min2) * 10;
-                // let val1 = val2 - Math.floor(Math.random() * (max - min + 1) + min) * 10;
-                // let val3 = val2 + Math.floor(Math.random() * (max - min2 + 1) + min2) * 10;
-                // if (val3 >= val2) {
-                //   val4 = val3 + Math.floor(Math.random() * (max - min + 1) + min) * 10;
-                // } else {
-                //   val4 = val2 + Math.floor(Math.random() * (max - min + 1) + min) * 10;
-                // }
-                // let chtary2 = ['2日目', val1, val2, val3, val4];
-
-                // console.log(chtary2);
-
-
-                // let val2_3 = val2 + Math.floor(Math.random() * (max - min2 + 1) + min2) * 10;
-                // let val1_3 = val2_3 - Math.floor(Math.random() * (max - min + 1) + min) * 10;
-                // let val3_3 = val2_3 + Math.floor(Math.random() * (max - min2 + 1) + min2) * 10;
-                // if (val3_3 >= val2_3) {
-                //   val4_3 = val3_3 + Math.floor(Math.random() * (max - min + 1) + min) * 10;
-                // } else {
-                //   val4_3 = val2_3 + Math.floor(Math.random() * (max - min + 1) + min) * 10;
-                // }
-                // let chtary3 = ['3日目', val1, val2, val3, val4];
-
-                // console.log(chtary3);
-
-
+            } else { //-----データがない場合
 
                 //-----------------------------------------------------------
                 // データの順 安値,終値,始値,高値
